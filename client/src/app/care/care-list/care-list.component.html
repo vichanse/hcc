@@ -1,0 +1,85 @@
+<div class="ContentSideSections Implementation">
+    <md-card>
+      <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+    </div>
+      <md-card-content>
+
+
+        <p-dataTable [value]="cares"
+                    [rows]="10"
+                    [paginator]="totalRecords > 10"
+                    [totalRecords]="totalRecords"
+                    (onLazyLoad)="loadPage($event)"
+                    selectionMode="single"
+                    [rowsPerPageOptions]="[5,10,20,50,100]"
+                    [responsive]="true"
+                    [globalFilter]="gb"
+                    selectionMode="single"
+                    [(selection)]="selectedCare"
+                    (onRowSelect)="onRowSelect($event)"
+                    #dt >
+            <p-header> (count: {{totalRecords}})</p-header>
+
+            <p-column field="date" header="Date" [style]="{'overflow':'visible'}" [sortable]="true" [filter]="true" filterMatchMode="startsWith">
+              <ng-template let-col let-care="rowData" pTemplate="body">
+                  {{care[col.field]|date: "dd/MM/yyyy" }}
+              </ng-template>
+            </p-column>
+
+
+            <p-column field="intitule" header="Intitulé" [sortable]="true" [filter]="true">
+            </p-column>
+
+
+            <p-column field="beneficiaire" header="Bénéficiaire" [sortable]="true" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+              <ng-template pTemplate="filter" let-col>
+                  <p-multiSelect [options]="beneficiaires" defaultLabel="Tous les bénéficiaires" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+              </ng-template>
+            </p-column>
+
+
+            <p-column styleClass="col-icon">
+                <ng-template let-author="rowData" pTemplate="body">
+                    <button type="button" pButton icon="fa-trash"  style="float:left"></button>
+                </ng-template>
+            </p-column>
+
+        </p-dataTable>
+      </md-card-content>
+      <md-card-actions>
+        <button md-raised-button (click)="showDialogToAdd()"><md-icon>add</md-icon>Add</button>
+    </md-card-actions>
+
+    </md-card>
+
+    <p-dialog header="Care Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+      <md-card>
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="care">
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="date">Date</label></div>
+                <div class="ui-g-8"><input pInputText id="date" [(ngModel)]="care.date" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="brand">Intitulé</label></div>
+                <div class="ui-g-8"><input pInputText id="intitule" [(ngModel)]="care.intitule" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="brand">Professionnel</label></div>
+                <div class="ui-g-8"><input pInputText id="professionnel" [(ngModel)]="care.professionnel" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="payeur">Payeur</label></div>
+                <div class="ui-g-8"><input pInputText id="payeur" [(ngModel)]="care.payeur" /></div>
+            </div>
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+                <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            </div>
+        </p-footer>
+      </md-card>
+</p-dialog>
+</div>

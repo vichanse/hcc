@@ -1,0 +1,89 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: vicky.nsenga
+ * Date: 11/04/2017
+ * Time: 14:24
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * A car.
+ *
+ * @ORM\Entity
+ */
+class Care {
+
+	/**
+	 * @var int The id of this book.
+	 *
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="datetime")
+	 */
+	private $date;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="text")
+	 */
+	private $intitule;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="text")
+	 */
+	private $beneficiaire;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="text")
+	 */
+	private $professionnel;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="text")
+	 */
+	private $payeur;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="text")
+	 */
+	private $carteVitale;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="text")
+	 */
+	private $modePaiement;
+
+	/**
+	 * @var string The description of this book.
+	 *
+	 * @ORM\Column(type="float")
+	 */
+	private $montant;
+
+
+
+
+}
