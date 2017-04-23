@@ -24,9 +24,9 @@ export class AuthenticationComponent implements OnInit {
 		});
 	}
 
-	onSubmit() {
+	/*onSubmit() {
 		this.authenticationService
-			.authenticate(this.loginForm.value)
+			.login(this.loginForm.value)
 			.subscribe(
 	            data => {
 	            	localStorage.setItem('id_token', data.token);
@@ -35,7 +35,7 @@ export class AuthenticationComponent implements OnInit {
 	            },
 	            error => this.error = error.message
 	        );
-	}
+	}*/
 
   ngOnInit() {
   }

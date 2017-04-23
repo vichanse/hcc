@@ -81,7 +81,7 @@ class Care {
 	/**
 	 * @var string The description of this book.
 	 *
-	 * @ORM\Column(type="float")
+	 * @ORM\Column(type="string")
 	 */
 	private $montant;
 

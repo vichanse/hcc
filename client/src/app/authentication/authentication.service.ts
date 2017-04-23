@@ -14,11 +14,11 @@ export class AuthenticationService {
 
   constructor(private http: Http) {}
 
-  authenticate(user: any) {
+  login(j_username: string, j_password: string) {
   	let url 	= '/api/login_check';
         let body 	= new URLSearchParams();
-        body.append('_username', user.username);
-        body.append('_password', user.password);
+        body.append('_username', j_username);
+        body.append('_password', j_password);
   	let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
         let options = new RequestOptions({headers: headers});
     //console.log(body.toString());

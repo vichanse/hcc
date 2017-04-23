@@ -93,3 +93,11 @@ lexik_jwt_authentication:
     public_key_path:  '%jwt_public_key_path%'
     pass_phrase:      '%jwt_key_pass_phrase%'
     token_ttl:        '%jwt_token_ttl%'
+
+api_platform:
+    title:       Health care Costs Management
+    description: |
+      This is app helps you manage your health care costs.
+    formats:
+        json:    ['application/json']
+        

@@ -15,9 +15,19 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class CareService {
 
-  private baseUrl = '/api/cares.json';
+  private baseUrl = '/api/cares';
 
   constructor(private authHttp: AuthHttp) { }
+
+  /**
+     * Get a care by id.
+     */
+    getCare(id : any) : Observable<Care> {
+      const url = `${this.baseUrl}/${id}`;
+        return this.authHttp.get(url)
+            .map(response => new Care(response.json()))
+            .catch(this.handleError);
+    }
 
   getCares(): Observable<Care[]> {
 
@@ -26,12 +36,50 @@ export class CareService {
           .catch(this.handleError);
   }
 
+  saveCare(care: Care): Observable<Care> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        if ( undefined === care.id ) {
+            return this.createCare(care, options);
+        }
+        return this.updateCare(care, options);
+    }
+
+    /**
+     * Delete an Author by id.
+     */
+    delete(id: any) {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.baseUrl}/${id}`;
+
+      return this.authHttp.delete(url, options).catch(this.handleError);
+    }
+
+    private createCare(care: Care, options: RequestOptions): Observable<Care> {
+        care.id = undefined;
+        return this.authHttp.post(this.baseUrl, care, options)
+            .map(this.extractData)
+            .do(data => console.log('createCare: ' + JSON.stringify(data)))
+            .catch(this.handleError);
+    }
+
+    private updateCare(care: Care, options: RequestOptions): Observable<Care> {
+       const url = `${this.baseUrl}/${care.id}`;
+        console.log(care);
+        return this.authHttp.put(url, care, options)
+            .map(() => care)
+            .do(data => console.log('updateCare: ' + JSON.stringify(data)))
+            .catch(this.handleError);
+    }
+
 
 
   private extractData(response: Response) {
       const body = response.json();
       console.log(body);
-      return body || {};
+      return Care.toArray(body) || {};
   }
 
   private handleError (error: any) {

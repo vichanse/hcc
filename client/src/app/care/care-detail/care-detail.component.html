@@ -1,3 +1,47 @@
-<p>
-  care-detail works!
-</p>
+<div class="ContentSideSections Implementation">
+    <md-card *ngIf="care" ngForm #careForm="ngForm">
+        <md-card-title>Care Details</md-card-title>
+        <md-card-content>
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad">
+             <div class="ui-grid-row">
+
+            </div>
+             <div class="ui-grid-row">
+
+            </div>
+             <div class="ui-grid-row">
+
+            </div>
+             <div class="ui-grid-row">
+
+            </div>
+             <div class="ui-grid-row">
+
+            </div>
+             <div class="ui-grid-row">
+
+            </div>
+             <div class="ui-grid-row">
+
+            </div>
+         </div>
+        </md-card-content>
+        <md-card-actions>
+            <button md-raised-button ><md-icon>cancel</md-icon>Cancel</button>
+            <button md-raised-button ><md-icon>save</md-icon>Save</button>
+        </md-card-actions>
+    </md-card>
+    <md-card *ngIf="care && care.id">
+    <md-card-subtitle>Health care refound</md-card-subtitle>
+    <md-card-content>
+    <md-tab-group>
+        <md-tab label="CPAM">
+        </md-tab>
+        <md-tab label="Mutuelle">
+        </md-tab>
+
+    </md-tab-group>
+    </md-card-content>
+    </md-card>
+</div>
+

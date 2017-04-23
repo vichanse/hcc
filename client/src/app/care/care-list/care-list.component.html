@@ -22,9 +22,12 @@
                     #dt >
             <p-header> (count: {{totalRecords}})</p-header>
 
-            <p-column field="date" header="Date" [style]="{'overflow':'visible'}" [sortable]="true" [filter]="true" filterMatchMode="startsWith">
+            <p-column field="date" header="Date" [style]="{'overflow':'visible'}" [sortable]="true" [filter]="true" filterMatchMode="startsWith" >
               <ng-template let-col let-care="rowData" pTemplate="body">
                   {{care[col.field]|date: "dd/MM/yyyy" }}
+              </ng-template>
+              <ng-template pTemplate="filter" let-col>
+                  <p-calendar  [(ngModel)]="dateFilter" dateFormat="dd/mm/yy" (onBlur)=onBlurCalendarInputPrimeng($event,dt,col.field,col.filterMatchMode)  (onSelect)="onSelectCalendarInputPrimeng($event,dt,col.field,col.filterMatchMode)" styleClass="ui-column-filter" #calendar></p-calendar>
               </ng-template>
             </p-column>
 
@@ -39,10 +42,18 @@
               </ng-template>
             </p-column>
 
+            <p-column field="montant" header="Montant payé" [sortable]="true" [filter]="true">
+              <ng-template let-col let-care="rowData" pTemplate="body">
+                <span>{{care[col.field] | currency:'EUR':true:'1.2-2'}}</span>
+            </ng-template>
+            </p-column>
+
+
+
 
             <p-column styleClass="col-icon">
-                <ng-template let-author="rowData" pTemplate="body">
-                    <button type="button" pButton icon="fa-trash"  style="float:left"></button>
+               <ng-template let-care="rowData" pTemplate="body">
+                  <button type="button" pButton icon="fa-pencil-square-o"  pTooltip="Détails" tooltipPosition="left" style="float:left" (click)="selectCare(care)"></button>
                 </ng-template>
             </p-column>
 
@@ -54,12 +65,12 @@
 
     </md-card>
 
-    <p-dialog header="Care Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <p-dialog header="Care Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="500" >
       <md-card>
         <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="care">
             <div class="ui-grid-row">
                 <div class="ui-g-4"><label for="date">Date</label></div>
-                <div class="ui-g-8"><input pInputText id="date" [(ngModel)]="care.date" /></div>
+                <div class="ui-g-8"><p-calendar id="date" [(ngModel)]="care.date" dateFormat="dd/mm/yy"></p-calendar></div>
             </div>
             <div class="ui-grid-row">
                 <div class="ui-g-4"><label for="brand">Intitulé</label></div>
@@ -67,11 +78,65 @@
             </div>
             <div class="ui-grid-row">
                 <div class="ui-g-4"><label for="brand">Professionnel</label></div>
-                <div class="ui-g-8"><input pInputText id="professionnel" [(ngModel)]="care.professionnel" /></div>
+                <div class="ui-g-8">
+                  <p-dropdown
+                      [options]="professionnels"
+                      [(ngModel)]="care.professionnel"
+                      placeholder="Séléctionner un professionnel"
+                      [style]="{'width':'250px'}" filter="filter">
+                  </p-dropdown>
+                </div>
             </div>
+
+
             <div class="ui-grid-row">
                 <div class="ui-g-4"><label for="payeur">Payeur</label></div>
-                <div class="ui-g-8"><input pInputText id="payeur" [(ngModel)]="care.payeur" /></div>
+                <div class="ui-g-8">
+                  <p-dropdown
+                      [options]="payeurs"
+                      [(ngModel)]="care.payeur"
+                      placeholder="Séléctionner un payeur"
+                      [style]="{'width':'250px'}" filter="filter">
+                  </p-dropdown>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="beneficiaire">Bénéficiare</label></div>
+                <div class="ui-g-8">
+                  <p-dropdown
+                      [options]="beneficiaires"
+                      [(ngModel)]="care.beneficiaire"
+                      placeholder="Séléctionner un bénéficiaire"
+                      [style]="{'width':'250px'}" filter="filter">
+                  </p-dropdown>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="carteVitale">Carte vitale</label></div>
+                <div class="ui-g-8">
+                  <p-dropdown
+                      [options]="cartes"
+                      [(ngModel)]="care.carteVitale"
+                      placeholder="Séléctionner une carte vitale"
+                      [style]="{'width':'250px'}" filter="filter">
+                  </p-dropdown>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="modePaiement">Mode de paiement</label></div>
+                <div class="ui-g-8">
+                  <p-dropdown
+                      [options]="modePaiements"
+                      [(ngModel)]="care.modePaiement"
+                      placeholder="Séléctionner un mode de paiement"
+                      [style]="{'width':'250px'}" filter="filter">
+                  </p-dropdown>
+
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-g-4"><label for="montant">Montant</label></div>
+                <div class="ui-g-8"><input pInputText id="montant" [(ngModel)]="care.montant" /></div>
             </div>
         </div>
         <p-footer>
